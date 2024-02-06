@@ -8,6 +8,8 @@ export function NewNoteCard() {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
 
+  const isTheSubmitButtonDisabled = shouldShowOnboarding || !content.length
+
   useEffect(() => {
     if (!isDialogOpen) {
       setShouldShowOnboarding(true)
@@ -94,7 +96,8 @@ export function NewNoteCard() {
           <button
             type="submit"
             form="newNoteForm"
-            className="w-full bg-lime-400 py-4 text-center text-sm text-lime-950 font-medium outline-none hover:bg-lime-500 transition-colors"
+            className="w-full bg-lime-400 py-4 text-center text-sm text-lime-950 font-medium outline-none enabled:hover:bg-lime-500 transition-colors disabled:bg-opacity-70 disabled:cursor-not-allowed"
+            disabled={isTheSubmitButtonDisabled}
           >
             Salvar nota
           </button>
