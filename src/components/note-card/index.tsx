@@ -32,12 +32,12 @@ export function NoteCard({ note }: NoteCardProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/50" />
 
-        <Dialog.Content className="flex flex-col max-w-[640px] w-full h-[60vh] fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 rounded-md bg-slate-700 outline-none overflow-hidden">
+        <Dialog.Content className="flex flex-col max-w-[calc(100vw-2.5rem)] w-[640px] h-[60vh] fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 rounded-md bg-slate-700 outline-none overflow-hidden">
           <Dialog.Close className="absolute top-0 right-0 bg-slate-800 p-1.5 text-slate-400 hover:text-slate-100 transition-colors">
             <X className="size-5" />
           </Dialog.Close>
 
-          <div className="flex flex-1 flex-col gap-5 p-5">
+          <div className="flex flex-1 flex-col gap-5 p-5 overflow-auto">
             <span className="text-sm font-medium text-slate-200">
               {createdAtFormated}
             </span>
