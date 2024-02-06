@@ -1,9 +1,51 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export function NewNoteCard() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
+  const [content, setContent] = useState('')
+
+  useEffect(() => {
+    if (!isDialogOpen) {
+      setShouldShowOnboarding(true)
+      setContent('')
+    }
+  }, [isDialogOpen])
+
+  function handleDialogState(openState: boolean) {
+    setIsDialogOpen(openState)
+  }
+
+  function handleStartEditor() {
+    setShouldShowOnboarding(false)
+  }
+
+  function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>) {
+    const { value } = event.target
+
+    setContent(value)
+
+    if (!value || value.length === 0) {
+      setShouldShowOnboarding(true)
+    }
+  }
+
+  function handleSaveNote(event: FormEvent) {
+    event.preventDefault()
+
+    if (!content) {
+      toast.error('O conteúdo da nota não pode estar vazio.')
+      return
+    }
+
+    toast.success('Nota criada com sucesso.')
+  }
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isDialogOpen} onOpenChange={handleDialogState}>
       <Dialog.Trigger className="flex flex-col rounded-md bg-slate-700 p-5 gap-3 text-left overflow-hidden relative outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
         <span className="text-sm font-medium text-slate-200">
           Adicionar nota
@@ -16,7 +58,7 @@ export function NewNoteCard() {
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/50" />
 
-        <Dialog.Content className="flex flex-col max-w-[640px] w-full h-[60vh] fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 rounded-md bg-slate-700 outline-none overflow-hidden">
+        <Dialog.Content className="flex flex-col max-w-[calc(100vw-2.5rem)] w-[640px] h-[60vh] fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 rounded-md bg-slate-700 outline-none overflow-hidden">
           <Dialog.Close className="absolute top-0 right-0 bg-slate-800 p-1.5 text-slate-400 hover:text-slate-100 transition-colors">
             <X className="size-5" />
           </Dialog.Close>
@@ -25,12 +67,35 @@ export function NewNoteCard() {
             <span className="text-sm font-medium text-slate-200">
               Adicionar nota
             </span>
-            <p className="text-sm text-slate-400 leading-6">
-              Comece <button className="text-lime-400 font-medium inline-block hover:underline">gravando uma nota</button> em áudio ou se preferir <button className="text-lime-400 font-medium inline-block hover:underline">utilize apenas texto</button>.
-            </p>
+
+            {shouldShowOnboarding ? (
+              <p className="text-sm text-slate-400 leading-6 overflow-auto">
+                Comece <button className="text-lime-400 font-medium inline-block hover:underline">gravando uma nota</button> em áudio ou se preferir <button className="text-lime-400 font-medium inline-block hover:underline" onClick={handleStartEditor}>utilize apenas texto</button>.
+              </p>
+            ) : (
+              <form
+                id="newNoteForm"
+                onSubmit={handleSaveNote}
+                className="flex flex-1"
+              >
+                <textarea
+                  id="noteContent"
+                  name="noteContent"
+                  autoFocus={true}
+                  className="text-sm text-slate-400 leading-6 bg-transparent resize-none flex-1 outline-none"
+                  value={content}
+                  onChange={handleContentChanged}
+                />
+              </form>
+            )
+            }
           </div>
 
-          <button className="w-full bg-lime-400 py-4 text-center text-sm text-lime-950 font-medium outline-none hover:bg-lime-500 transition-colors">
+          <button
+            type="submit"
+            form="newNoteForm"
+            className="w-full bg-lime-400 py-4 text-center text-sm text-lime-950 font-medium outline-none hover:bg-lime-500 transition-colors"
+          >
             Salvar nota
           </button>
         </Dialog.Content>
