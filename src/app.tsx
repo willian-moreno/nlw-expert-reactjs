@@ -75,7 +75,7 @@ export function App() {
               name="query"
               value={search}
               placeholder="Busque em suas notas..."
-              className="w-full bg-transparent text-3xl font-semibold tracking-tight placeholder:text-slate-500 focus:outline-none"
+              className="w-full bg-transparent text-2xl md:text-3xl font-semibold tracking-tight placeholder:text-slate-500 focus:outline-none"
               onChange={handleSearchNote}
             />
           </form>
