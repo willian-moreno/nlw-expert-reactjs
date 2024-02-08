@@ -5,6 +5,7 @@ import { X } from 'lucide-react'
 
 interface NoteCardProps {
   note: {
+    id: string,
     content: string,
     createdAt: Date,
   }
@@ -16,6 +17,8 @@ export function NoteCard({ note }: NoteCardProps) {
     locale: ptBR,
   })
 
+  const contentRows = note.content.split('\n')
+
   return (
     <Dialog.Root>
       <Dialog.Trigger className="flex flex-col rounded-md bg-slate-800 p-5 gap-3 text-left cursor-pointer overflow-hidden relative outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400 transition-[box-shadow]">
@@ -23,9 +26,19 @@ export function NoteCard({ note }: NoteCardProps) {
           {createdAtFormated}
         </span>
 
-        <p className="text-sm text-slate-400 leading-6">
-          {note.content}
-        </p>
+        <div className="flex flex-1 flex-col">
+          {contentRows.map(contentRow => {
+            return (
+              <p
+                key={contentRow}
+                className="text-sm text-slate-400 leading-6"
+              >
+                {contentRow}
+              </p>
+            )
+          })}
+        </div>
+
         <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </Dialog.Trigger>
 
@@ -42,9 +55,18 @@ export function NoteCard({ note }: NoteCardProps) {
               {createdAtFormated}
             </span>
 
-            <p className="text-sm text-slate-400 leading-6">
-              {note.content}
-            </p>
+            <div className="flex flex-col overflow-auto">
+              {contentRows.map(contentRow => {
+                return (
+                  <p
+                    key={contentRow}
+                    className="text-sm text-slate-400 leading-6"
+                  >
+                    {contentRow}
+                  </p>
+                )
+              })}
+            </div>
           </div>
 
           <button className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 font-medium enabled:hover:text-slate-100 enabled:focus-visible:outline-2 enabled:focus-visible:outline-lime-400 enabled:focus-visible:outline-offset-4 disabled:bg-opacity-70 disabled:cursor-not-allowed transition-colors group">

@@ -1,25 +1,17 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 
-export function NewNoteCard() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void
+}
+
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
 
   const isTheSubmitButtonDisabled = shouldShowOnboarding || !content.length
-
-  useEffect(() => {
-    if (!isDialogOpen) {
-      setShouldShowOnboarding(true)
-      setContent('')
-    }
-  }, [isDialogOpen])
-
-  function handleDialogState(openState: boolean) {
-    setIsDialogOpen(openState)
-  }
 
   function handleStartEditor() {
     setShouldShowOnboarding(false)
@@ -43,11 +35,15 @@ export function NewNoteCard() {
       return
     }
 
+    onNoteCreated(content)
+    setShouldShowOnboarding(true)
+    setContent('')
+
     toast.success('Nota criada com sucesso.')
   }
 
   return (
-    <Dialog.Root open={isDialogOpen} onOpenChange={handleDialogState}>
+    <Dialog.Root>
       <Dialog.Trigger className="flex flex-col rounded-md bg-slate-700 p-5 gap-3 text-left cursor-pointer overflow-hidden relative outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400 transition-[box-shadow]">
         <span className="text-sm font-medium text-slate-200">
           Adicionar nota
@@ -89,8 +85,7 @@ export function NewNoteCard() {
                   onChange={handleContentChanged}
                 />
               </form>
-            )
-            }
+            )}
           </div>
 
           <button
