@@ -45,6 +45,14 @@ export function App() {
     localStorage.setItem('@expert-notes:notes-1.0.0', JSON.stringify(newNotesList))
   }
 
+  function onNoteRemoved(id: string) {
+    const newNotes = notes.filter(note => note.id !== id)
+
+    setNotes(newNotes)
+
+    localStorage.setItem('@expert-notes:notes-1.0.0', JSON.stringify(newNotes))
+  }
+
   function handleSearchNote(event: ChangeEvent<HTMLInputElement>) {
     const query = event.target.value || ''
 
@@ -85,6 +93,7 @@ export function App() {
               <NoteCard
                 key={note.id}
                 note={note}
+                onNoteRemoved={onNoteRemoved}
               />
             )
           })}

@@ -2,22 +2,30 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { X } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface NoteCardProps {
   note: {
     id: string,
     content: string,
     createdAt: Date,
-  }
+  },
+  onNoteRemoved: (id: string) => void
 }
 
-export function NoteCard({ note }: NoteCardProps) {
+export function NoteCard({ note, onNoteRemoved }: NoteCardProps) {
   const createdAtFormated = formatDistanceToNow(note.createdAt, {
     addSuffix: true,
     locale: ptBR,
   })
 
   const contentRows = note.content.split('\n')
+
+  function handleRemoveNote() {
+    onNoteRemoved(note.id)
+
+    toast.success('Nota removida com sucesso.')
+  }
 
   return (
     <Dialog.Root>
@@ -69,7 +77,10 @@ export function NoteCard({ note }: NoteCardProps) {
             </div>
           </div>
 
-          <button className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 font-medium enabled:hover:text-slate-100 enabled:focus-visible:outline-2 enabled:focus-visible:outline-lime-400 enabled:focus-visible:outline-offset-4 disabled:bg-opacity-70 disabled:cursor-not-allowed transition-colors group">
+          <button
+            className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 font-medium enabled:hover:text-slate-100 enabled:focus-visible:outline-2 enabled:focus-visible:outline-lime-400 enabled:focus-visible:outline-offset-4 disabled:bg-opacity-70 disabled:cursor-not-allowed transition-colors group"
+            onClick={handleRemoveNote}
+          >
             Deseja <span className="text-red-400 group-hover:underline">apagar essa nota</span>?
           </button>
         </Dialog.Content>
