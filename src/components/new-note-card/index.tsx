@@ -8,9 +8,9 @@ interface NewNoteCardProps {
   onNoteCreated: (content: string) => void
 }
 
-export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
-  const { isSpeechRecognitionAPIAvailable, speechRecognition } = useSpeechRecognition()
+const { isSpeechRecognitionAPIAvailable, speechRecognition } = useSpeechRecognition()
 
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [content, setContent] = useState('')
