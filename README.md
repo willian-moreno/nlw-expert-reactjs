@@ -33,9 +33,11 @@ O projeto Expert Notes foi desenvolvido por meio da trilha React e nele vamos ap
 - [Vite](https://vitejs.dev/)
 - [Sonner](https://sonner.emilkowal.ski/)
 - [Lucide](https://lucide.dev/) 
+- [Date FNS](https://date-fns.org/)
+- [Radix UI](https://www.radix-ui.com/)
+- [SpeechRecognitionAPI](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)
 - [Git](https://git-scm.com/)
 - [Figma](https://figma.com)
-- [SpeechRecognitionAPI](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)
 
 <h3>📌 Layout</h3>
 
