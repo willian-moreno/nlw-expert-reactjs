@@ -54,6 +54,7 @@ export function App() {
   }
 
   function onUndoNoteRemoval(lastNoteRemoved: Note) {
+    lastNoteRemoved.id = crypto.randomUUID()
     setNotes((state) => [lastNoteRemoved, ...state])
     localStorage.setItem('@expert-notes:notes-1.0.0', JSON.stringify(notes))
   }
