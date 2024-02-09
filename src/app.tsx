@@ -46,11 +46,16 @@ export function App() {
   }
 
   function onNoteRemoved(id: string) {
-    const newNotes = notes.filter(note => note.id !== id)
+    const notesWithoutNoteToBeRemoved = notes.filter(note => note.id !== id)
 
-    setNotes(newNotes)
+    setNotes(notesWithoutNoteToBeRemoved)
 
-    localStorage.setItem('@expert-notes:notes-1.0.0', JSON.stringify(newNotes))
+    localStorage.setItem('@expert-notes:notes-1.0.0', JSON.stringify(notesWithoutNoteToBeRemoved))
+  }
+
+  function onUndoNoteRemoval(lastNoteRemoved: Note) {
+    setNotes((state) => [lastNoteRemoved, ...state])
+    localStorage.setItem('@expert-notes:notes-1.0.0', JSON.stringify(notes))
   }
 
   function handleSearchNote(event: ChangeEvent<HTMLInputElement>) {
@@ -94,6 +99,7 @@ export function App() {
                 key={note.id}
                 note={note}
                 onNoteRemoved={onNoteRemoved}
+                onUndoNoteRemoval={onUndoNoteRemoval}
               />
             )
           })}

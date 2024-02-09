@@ -4,16 +4,19 @@ import { ptBR } from 'date-fns/locale'
 import { X } from 'lucide-react'
 import { toast } from 'sonner'
 
-interface NoteCardProps {
-  note: {
-    id: string,
-    content: string,
-    createdAt: Date,
-  },
-  onNoteRemoved: (id: string) => void
+interface Note {
+  id: string,
+  content: string,
+  createdAt: Date
 }
 
-export function NoteCard({ note, onNoteRemoved }: NoteCardProps) {
+interface NoteCardProps {
+  note: Note,
+  onNoteRemoved: (id: string) => void
+  onUndoNoteRemoval: (lastNoteRemoved: Note) => void
+}
+
+export function NoteCard({ note, onNoteRemoved, onUndoNoteRemoval }: NoteCardProps) {
   const createdAtFormated = formatDistanceToNow(note.createdAt, {
     addSuffix: true,
     locale: ptBR,
@@ -24,7 +27,14 @@ export function NoteCard({ note, onNoteRemoved }: NoteCardProps) {
   function handleRemoveNote() {
     onNoteRemoved(note.id)
 
-    toast.success('Nota removida com sucesso.')
+    toast.success('Nota removida com sucesso.', {
+      action: {
+        label: 'Desfazer',
+        onClick: () => {
+          onUndoNoteRemoval(note)
+        }
+      },
+    })
   }
 
   return (
