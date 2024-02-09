@@ -90,6 +90,8 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   function handleStopRecording(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault()
 
+    if (!isSpeechRecognitionAPIAvailable) return
+
     speechRecognition.stop()
     setIsRecording(false)
   }
