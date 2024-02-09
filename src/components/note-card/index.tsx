@@ -45,10 +45,10 @@ export function NoteCard({ note, onNoteRemoved, onUndoNoteRemoval }: NoteCardPro
         </span>
 
         <div className="flex flex-1 flex-col">
-          {contentRows.map(contentRow => {
+          {contentRows.map((contentRow, index) => {
             return (
               <p
-                key={contentRow}
+                key={contentRow + 'card' + index}
                 className="text-sm text-slate-400 leading-6"
               >
                 {contentRow}
@@ -74,10 +74,10 @@ export function NoteCard({ note, onNoteRemoved, onUndoNoteRemoval }: NoteCardPro
             </span>
 
             <div className="flex flex-col overflow-auto">
-              {contentRows.map(contentRow => {
+              {contentRows.map((contentRow, index) => {
                 return (
                   <p
-                    key={contentRow}
+                    key={contentRow + 'dialog' + index}
                     className="text-sm text-slate-400 leading-6"
                   >
                     {contentRow}
